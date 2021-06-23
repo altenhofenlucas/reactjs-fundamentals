@@ -40,8 +40,8 @@ const Dashboard: React.FC = () => {
         (transaction: Transaction) => ({
           ...transaction,
           formatValue: formatValue(transaction.value),
-          formattedDate: Intl.DateTimeFormat('pt-br').format(
-            new Date(transaction.created_at),
+          formattedDate: new Date(transaction.created_at).toLocaleDateString(
+            'pt-br',
           ),
         }),
       );
