@@ -8,11 +8,7 @@ import api from '../../services/api';
 
 import Header from '../../components/Header';
 
-import {
-  formatCurrencyFromString,
-  formatCurrency,
-  formatDateFromTimestamp,
-} from '../../utils/formatValue';
+import formatValue from '../../utils/formatValue';
 
 import { Container, CardContainer, Card, TableContainer } from './styles';
 
@@ -59,7 +55,7 @@ const Dashboard: React.FC = () => {
                 <img src={income} alt="Income" />
               </header>
               <h1 data-testid="balance-income">
-                {formatCurrencyFromString(balance.income)}
+                {formatValue(Number(balance.income))}
               </h1>
             </Card>
             <Card>
@@ -68,7 +64,7 @@ const Dashboard: React.FC = () => {
                 <img src={outcome} alt="Outcome" />
               </header>
               <h1 data-testid="balance-outcome">
-                {formatCurrencyFromString(balance.outcome)}
+                {formatValue(Number(balance.outcome))}
               </h1>
             </Card>
             <Card total>
@@ -77,7 +73,7 @@ const Dashboard: React.FC = () => {
                 <img src={total} alt="Total" />
               </header>
               <h1 data-testid="balance-total">
-                {formatCurrencyFromString(balance.total)}
+                {formatValue(Number(balance.total))}
               </h1>
             </Card>
           </CardContainer>
@@ -96,14 +92,20 @@ const Dashboard: React.FC = () => {
 
             <tbody>
               {transactions.map(transaction => (
-                <tr>
+                <tr key={transaction.id}>
                   <td className="title">{transaction.title}</td>
-                  <td className={`${transaction.type}`}>
-                    {formatCurrency(transaction.value)}
-                  </td>
+                  {transaction.type === 'income' ? (
+                    <td className="income">{formatValue(transaction.value)}</td>
+                  ) : (
+                    <td className="outcome">
+                      {`- ${formatValue(transaction.value)}`}
+                    </td>
+                  )}
                   <td>{transaction.category.title}</td>
                   <td>
-                    {formatDateFromTimestamp(new Date(transaction.created_at))}
+                    {Intl.DateTimeFormat('pt-br').format(
+                      new Date(transaction.created_at),
+                    )}
                   </td>
                 </tr>
               ))}
