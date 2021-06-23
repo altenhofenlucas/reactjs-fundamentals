@@ -9,9 +9,9 @@ import api from '../../services/api';
 import Header from '../../components/Header';
 
 import {
-  formatCurrencyValueFromString,
-  formatCurrencyValue,
-  formatDateValueFromTimestamp,
+  formatCurrencyFromString,
+  formatCurrency,
+  formatDateFromTimestamp,
 } from '../../utils/formatValue';
 
 import { Container, CardContainer, Card, TableContainer } from './styles';
@@ -59,7 +59,7 @@ const Dashboard: React.FC = () => {
                 <img src={income} alt="Income" />
               </header>
               <h1 data-testid="balance-income">
-                {formatCurrencyValueFromString(balance.income)}
+                {formatCurrencyFromString(balance.income)}
               </h1>
             </Card>
             <Card>
@@ -68,7 +68,7 @@ const Dashboard: React.FC = () => {
                 <img src={outcome} alt="Outcome" />
               </header>
               <h1 data-testid="balance-outcome">
-                {formatCurrencyValueFromString(balance.outcome)}
+                {formatCurrencyFromString(balance.outcome)}
               </h1>
             </Card>
             <Card total>
@@ -77,7 +77,7 @@ const Dashboard: React.FC = () => {
                 <img src={total} alt="Total" />
               </header>
               <h1 data-testid="balance-total">
-                {formatCurrencyValueFromString(balance.total)}
+                {formatCurrencyFromString(balance.total)}
               </h1>
             </Card>
           </CardContainer>
@@ -99,13 +99,11 @@ const Dashboard: React.FC = () => {
                 <tr>
                   <td className="title">{transaction.title}</td>
                   <td className={`${transaction.type}`}>
-                    {formatCurrencyValue(transaction.value)}
+                    {formatCurrency(transaction.value)}
                   </td>
                   <td>{transaction.category.title}</td>
                   <td>
-                    {formatDateValueFromTimestamp(
-                      new Date(transaction.created_at),
-                    )}
+                    {formatDateFromTimestamp(new Date(transaction.created_at))}
                   </td>
                 </tr>
               ))}
